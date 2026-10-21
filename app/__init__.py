@@ -1,1 +1,0 @@
-"""Incident response backend package."""
