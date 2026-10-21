@@ -82,8 +82,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Target the output build folder inside your config's path structure
-          path: ./frontend/out/novora-frontend
+          # Fixed path: configure-pages automates the root export context directly to ./frontend/out
+          path: ./frontend/out
 
   # Deployment job
   deploy:
