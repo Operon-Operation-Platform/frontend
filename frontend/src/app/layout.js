@@ -1,13 +1,17 @@
 import "../index.css";
 import { ThemeProvider } from "../context/ThemeContext";
 
+const faviconPath = process.env.GITHUB_PAGES === "true"
+  ? "/novora-frontend/logo.png"
+  : "/logo.png";
+
 export const metadata = {
   title: "Operon — AI Agent Operations Platform",
   description: "Create, configure, run, and monitor AI agents that perform authorized business workflows.",
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: faviconPath,
+    shortcut: faviconPath,
+    apple: faviconPath,
   },
 };
 
@@ -15,7 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="icon" href={faviconPath} type="image/png" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
