@@ -1,13 +1,13 @@
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 
 const nextConfig = {
-  // GitHub Pages hosts this project at /novora-frontend, while the app's
+  // GitHub Pages hosts this project at /frontend, while the app's
   // normal server deployment is hosted at the domain root.
   ...(isGitHubPages
     ? {
         output: 'export',
         distDir: 'out', 
-        basePath: '/novora-frontend',
+        basePath: '/frontend',
         trailingSlash: true,
         images: { unoptimized: true },
       }
