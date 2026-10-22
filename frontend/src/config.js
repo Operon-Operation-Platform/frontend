@@ -1,10 +1,12 @@
 /**
  * Frontend configuration.
  *
- * Set NEXT_PUBLIC_API_BASE_URL in .env.local when your backend is ready.
+ * Set NEXT_PUBLIC_API_BASE_URL at build time when the backend is ready.
  * See frontend/README.md for the full integration checklist.
  */
-const configuredApiUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
+const configuredApiUrl = (
+    process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL
+)?.replace(/\/$/, '');
 const configuredApiHost = process.env.NEXT_PUBLIC_API_HOST?.trim();
 
 export const API_BASE_URL = configuredApiUrl ||
