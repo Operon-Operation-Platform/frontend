@@ -6,7 +6,7 @@ const nextConfig = {
     ? {
         output: 'export',
         distDir: 'out', 
-        basePath: '/novora-frontend',
+        basePath: process.env.NEXT_PUBLIC_BASE_PATH || '/frontend',
         trailingSlash: true,
         images: { unoptimized: true },
       }

@@ -89,7 +89,7 @@ jobs:
         env:
           GITHUB_PAGES: 'true'
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-          NEXT_PUBLIC_BASE_PATH: /novora-frontend
+          NEXT_PUBLIC_BASE_PATH: /frontend
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
