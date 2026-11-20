@@ -76,6 +76,8 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
   // "entry" | "plain_english_form" | "json_form" | "template_select" | "workspace"
   const [phase, setPhase] = useState("entry");
   const [loading, setLoading] = useState(false);
+  const [startingTemplateKey, setStartingTemplateKey] = useState(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
 
   // ── Plain English Form ────────────────────────────────────────────────
@@ -174,6 +176,9 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
   };
 
   const handleStartTemplate = async (templateKey) => {
+    if (startingTemplateKey) return;
+    setSelectedTemplateKey(templateKey);
+    setStartingTemplateKey(templateKey);
     setLoading(true);
     setErrorMsg("");
     try {
@@ -187,6 +192,7 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
     } catch (err) {
       setErrorMsg(err.message || "Failed to initialize template workflow.");
     } finally {
+      setStartingTemplateKey(null);
       setLoading(false);
     }
   };
@@ -257,7 +263,7 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
             </div>
             <div>
               <h1 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                <span>Operon Agent Builder</span>
+                <span>{TEMPLATES.find((template) => template.key === selectedTemplateKey)?.name || "Operon Agent Builder"}</span>
                 {session && (
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
                     Session: {session.thread_id.slice(-8)}
@@ -273,7 +279,10 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
           <div className="flex items-center gap-2">
             {phase !== "entry" && phase !== "workspace" && (
               <button
-                onClick={() => setPhase("entry")}
+                onClick={() => {
+                  setSelectedTemplateKey(null);
+                  setPhase("entry");
+                }}
                 className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition"
               >
                 Change Method
@@ -370,7 +379,10 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
             <div className="max-w-5xl mx-auto">
               <div className="mb-6">
                 <button
-                  onClick={() => setPhase("entry")}
+                  onClick={() => {
+                    setSelectedTemplateKey(null);
+                    setPhase("entry");
+                  }}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 mb-3"
                 >
                   <ArrowLeft className="w-4 h-4" /> Back
@@ -384,7 +396,8 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
                   <div
                     key={tmpl.key}
                     onClick={() => handleStartTemplate(tmpl.key)}
-                    className="bg-white rounded-2xl border-2 border-slate-200 hover:border-blue-600 p-6 flex flex-col justify-between shadow-xs hover:shadow-md transition cursor-pointer"
+                    aria-busy={startingTemplateKey === tmpl.key}
+                    className={`bg-white rounded-2xl border-2 border-slate-200 hover:border-blue-600 p-6 flex flex-col justify-between shadow-xs hover:shadow-md transition ${startingTemplateKey ? "cursor-wait" : "cursor-pointer"}`}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-3">
@@ -422,11 +435,15 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
                     </div>
 
                     <button
-                      disabled={loading}
+                      type="button"
+                      disabled={Boolean(startingTemplateKey)}
                       className="mt-6 w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-xs transition flex items-center justify-center gap-1.5"
                     >
-                      {loading ? <RotateCw className="w-3.5 h-3.5 animate-spin" /> : <span>Use Template</span>}
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      {startingTemplateKey === tmpl.key ? (
+                        <><RotateCw className="w-3.5 h-3.5 animate-spin" /> Starting…</>
+                      ) : (
+                        <>Use Template <ArrowRight className="w-3.5 h-3.5" /></>
+                      )}
                     </button>
                   </div>
                 ))}
