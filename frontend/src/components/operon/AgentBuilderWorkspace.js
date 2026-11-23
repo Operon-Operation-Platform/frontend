@@ -76,6 +76,8 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
   // "entry" | "plain_english_form" | "json_form" | "template_select" | "workspace"
   const [phase, setPhase] = useState("entry");
   const [loading, setLoading] = useState(false);
+  const [startingTemplateKey, setStartingTemplateKey] = useState(null);
+  const [selectedTemplateKey, setSelectedTemplateKey] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
 
   // ── Plain English Form ────────────────────────────────────────────────
@@ -187,6 +189,7 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
     } catch (err) {
       setErrorMsg(err.message || "Failed to initialize template workflow.");
     } finally {
+      setStartingTemplateKey(null);
       setLoading(false);
     }
   };
@@ -257,6 +260,7 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
             </div>
             <div>
               <h1 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <span>{TEMPLATES.find((template) => template.key === selectedTemplateKey)?.name || "Operon Agent Builder"}</span>
                 <span>Operon Agent Builder</span>
                 {session && (
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
@@ -273,6 +277,10 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
           <div className="flex items-center gap-2">
             {phase !== "entry" && phase !== "workspace" && (
               <button
+                onClick={() => {
+                  setSelectedTemplateKey(null);
+                  setPhase("entry");
+                }}
                 onClick={() => setPhase("entry")}
                 className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition"
               >
@@ -370,6 +378,10 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
             <div className="max-w-5xl mx-auto">
               <div className="mb-6">
                 <button
+                  onClick={() => {
+                    setSelectedTemplateKey(null);
+                    setPhase("entry");
+                  }}
                   onClick={() => setPhase("entry")}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 mb-3"
                 >
@@ -384,6 +396,8 @@ export default function AgentBuilderWorkspace({ onClose, onAgentPublished }) {
                   <div
                     key={tmpl.key}
                     onClick={() => handleStartTemplate(tmpl.key)}
+                    aria-busy={startingTemplateKey === tmpl.key}
+                    className={`bg-white rounded-2xl border-2 border-slate-200 hover:border-blue-600 p-6 flex flex-col justify-between shadow-xs hover:shadow-md transition ${startingTemplateKey ? "cursor-wait" : "cursor-pointer"}`}
                     className="bg-white rounded-2xl border-2 border-slate-200 hover:border-blue-600 p-6 flex flex-col justify-between shadow-xs hover:shadow-md transition cursor-pointer"
                   >
                     <div>

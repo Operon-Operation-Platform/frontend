@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: operon-api
+    runtime: docker
+    repo: https://github.com/Operon-Operation-Platform/backend.git
+    branch: feat/core-backend-implementation
+    dockerContext: ./app
+    dockerfilePath: ./app/Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+      - key: FRONTEND_HOST
+        value: operon-frontend.onrender.com
+
+  - type: web
+    name: operon-frontend
+    runtime: docker
+    repo: https://github.com/Operon-Operation-Platform/frontend.git
+    branch: feat/core-frontend-features
+    dockerContext: ./frontend
+    dockerfilePath: ./frontend/Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: NEXT_PUBLIC_API_HOST
+        fromService:
+          type: web
+          name: operon-api
+          property: host
