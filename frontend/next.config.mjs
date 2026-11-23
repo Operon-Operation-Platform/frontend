@@ -3,11 +3,13 @@ const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 const nextConfig = {
   // GitHub Pages hosts this project at /frontend, while the app's
   // normal server deployment is hosted at the domain root.
+  // GitHub Pages serves this project from its repository subpath.
   ...(isGitHubPages
     ? {
         output: 'export',
         distDir: 'out', 
         basePath: '/frontend',
+        basePath: process.env.NEXT_PUBLIC_BASE_PATH || '/frontend',
         trailingSlash: true,
         images: { unoptimized: true },
       }

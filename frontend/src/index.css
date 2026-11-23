@@ -41,11 +41,6 @@ html.dark {
   --border-strong:  #475569;
 }
 
-/* Tone down stark white panels in the light theme. */
-html:not(.dark) .bg-white {
-  background-color: #F5F6F8;
-}
-
 /* ── Base ──────────────────────────────────────────────────── */
 html {
   background: var(--bg-primary);
