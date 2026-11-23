@@ -1,6 +1,91 @@
-# Operon
+# Operon:: AI Agent Creation & Operations Platform
+## Create, configure, test, and operate AI agents from one workspace.
 
-Operon is a platform for building and operating AI agents. The web application lets users configure agents, connect data sources and tools, run evaluations, review approvals, and inspect live runs. The frontend and API are maintained in separate Git repositories and deployed as separate services.
+Operon is a full-stack platform for building and managing AI agents without having to assemble every component independently. It brings agent configuration, knowledge management, tool integrations, execution monitoring, and human oversight into one operational environment.
+
+The goal is to make AI agents manageable as production software: configurable, observable, testable, and controllable.
+
+The frontend and backend are maintained in separate Git repositories and deployed as separate services.
+
+> **Project scope:** This README documents the current backend structure and workflows. Availability of a specific provider or integration depends on its configuration and credentials.
+
+**Project:** Full-stack application · AI agents  
+**Frontend:** [GitHub Repository](https://github.com/Operon-Operation-Platform/frontend)  
+**Backend:** [GitHub Repository](https://github.com/Operon-Operation-Platform/backend)  
+**Live Demo:** [Operon Web App](https://operon-operation-platform.github.io/frontend)  
+
+---
+
+## 1. Project Introduction
+
+### The problem
+Building an AI agent is relatively easy. Operating one reliably is considerably harder.
+
+Developers must manage prompts, models, knowledge sources, external tools, execution state, credentials, failures, and workspace permissions. These concerns often end up scattered across scripts, services, dashboards, and infrastructure.
+
+Operon brings these responsibilities together into a unified agent operations platform.
+
+### The solution
+Operon provides a unified workspace where users can create agents using plain-English descriptions, structured JSON configurations, or predefined templates, then manage their lifecycle, data sources, tools, and execution behavior.
+
+The platform is designed around a simple principle:
+
+> **An AI agent should be treated as an operational system, not just a prompt connected to an LLM.**
+
+---
+
+## 2. Video Demonstration
+
+A complete product walkthrough will be added here.
+
+📺 **[Watch the Video Demonstration (Coming Soon)](#)** *(Replace `#` with your video URL once uploaded)*
+
+The walkthrough will cover:
+* Creating an agent using plain English, JSON, or a template.
+* Configuring agent instructions, versions, and knowledge bases.
+* Connecting external tools, providers, and MCP servers.
+* Evaluating and testing agent behavior.
+* Running an agent and inspecting live run traces and execution state.
+* Reviewing and deciding on human-in-the-loop approval requests.
+
+---
+
+## 3. Screenshots
+
+
+| Interface | Screenshot |
+| :--- | :--- |
+| **Workspace dashboard** | ![Workspace dashboard](docs/images/dashboard.png) |
+| **Agent creation** | ![Agent creation](docs/images/agent-creation.png) |
+| **Agent configuration** | ![Agent configuration](docs/images/agent-configuration.png) |
+| **Knowledge management** | ![Tools & Knowledge management](docs/images/knowledge-management.png) |
+
+
+## 4. Key Capabilities
+
+### Agent creation and lifecycle management
+* Create agents from plain-English descriptions, structured JSON configurations, or predefined templates.
+* Validate configurations, manage agent versions, and control activation states.
+* Organize agents, settings, and role-based access within isolated workspaces.
+
+### Knowledge and data-source management
+* Connect data sources and ingest reference material into knowledge bases to give agents contextual grounding.
+* Retrieve relevant information during runs using dedicated RAG ingestion and retrieval modules.
+
+### Tool and MCP integrations
+* Expose tool definitions through a centralized backend registry and connect external service integrations.
+* Support Model Context Protocol (MCP) server connections and workspace tool requests.
+* Store and encrypt integration credentials securely on the backend using a secret vault rather than exposing secrets in prompts or frontend code.
+
+### Stateful execution and background processing
+* Assemble and run stateful agent workflows using **LangGraph** and **FastAPI**.
+* Persist application data and LangGraph execution checkpoints in **PostgreSQL** to support resumable workflows.
+* Offload asynchronous tasks to background workers using **Redis** and **ARQ** when queued processing is enabled.
+
+### Human oversight, evaluation, and observability
+* Pause workflow execution when human-in-the-loop approval is required, allowing reviewers to approve or reject actions before continuation.
+* Run evaluations to test and improve agent behavior.
+* Monitor run states, inspect trace data in real time, and track execution outcomes through built-in telemetry and run inspection views.
 
 ## System architecture
 
