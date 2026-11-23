@@ -87,6 +87,32 @@ The walkthrough will cover:
 * Run evaluations to test and improve agent behavior.
 * Monitor run states, inspect trace data in real time, and track execution outcomes through built-in telemetry and run inspection views.
 
+### Architectural decisions
+
+- **LangGraph:** Controls agent execution and stateful workflows.
+- **PostgreSQL:** Stores application data and persistent execution state.
+- **Redis and ARQ:** Support background processing and asynchronous tasks.
+- **Hybrid retrieval:** Combines semantic and keyword-based retrieval.
+- **MCP:** Provides a structured approach to external tool connectivity.
+- **Human approval:** Prevents sensitive operations from proceeding without the required oversight.
+
+The architecture prioritizes persistent execution, traceability, and controlled tool access.
+
+### Technology Stack
+
+| Layer | Technologies |
+|---|---|
+| Frontend | Next.js 16, React 19, TypeScript |
+| Backend | Python, FastAPI |
+| Agent orchestration | LangGraph |
+| Database | PostgreSQL |
+| Vector retrieval | ChromaDB |
+| Retrieval | Hybrid search, BM25 |
+| Background jobs | Redis, ARQ |
+| Integrations | MCP, REST APIs |
+| Observability | Langfuse |
+| Infrastructure | Docker, GitHub Actions, Render |
+
 ## System architecture
 
 ```mermaid
